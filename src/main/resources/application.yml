@@ -5,3 +5,4 @@ spring:
       password: kuwan@2017
 mybatis:
    mapperLocations: classpath:/mapper/*.xml
+#   hello
