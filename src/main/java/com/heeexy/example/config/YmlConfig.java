@@ -9,8 +9,8 @@ public class YmlConfig {
     @Value("${spring.redis.host:#{null}}")
     private String host;
 
-    @Value("${dir:#{null}}")
-    private String dir;
+    @Value("${uploadDir:#{null}}")
+    private String uploadDir;
 
     public String getHost() {
         return host;
@@ -20,11 +20,11 @@ public class YmlConfig {
         this.host = host;
     }
 
-    public String getDir() {
-        return dir;
+    public String getUploadDir() {
+        return uploadDir;
     }
 
-    public void setDir(String dir) {
-        this.dir = dir;
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
     }
 }

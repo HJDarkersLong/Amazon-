@@ -5,4 +5,5 @@ spring:
       password: kuwan@2017
 mybatis:
    mapperLocations: classpath:/mapper/*.xml
-dir:hello
+#uploadDir: http://localhost:9520/src/assets/upload
+uploadDir: F:\FINAL\vue

@@ -37,11 +37,101 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
-    <!--<update id="updateArticle" parameterType="com.alibaba.fastjson.JSONObject">
-        UPDATE article
-        SET
-            content = #{content}
-        WHERE id = #{id}
-    </update>-->
+    <update id="updateGoods" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE goods_base_info g
+        <set>
+            <if test="name != null" >
+                g.name = #{name},
+            </if>
+            <if test="cn_name != null" >
+                g.cn_name = #{cn_name},
+            </if>
+            <if test="en_name != null" >
+                g.en_name = #{en_name},
+            </if>
+            <if test="pcl_no != null" >
+                g.pcl_no = #{pcl_no},
+            </if>
+            <if test="sku_no != null" >
+                g.sku_no = #{sku_no},
+            </if>
+            <if test="other_name != null" >
+                g.other_name = #{other_name},
+            </if>
+            <if test="cn_customs_name != null" >
+                g.cn_customs_name = #{cn_customs_name},
+            </if>
+            <if test="en_customs_name != null" >
+                g.en_customs_name = #{en_customs_name},
+            </if>
+            <if test="hs_code != null" >
+                g.hs_code = #{hs_code},
+            </if>
+            <if test="category_no != null" >
+                g.category_no = #{category_no},
+            </if>
+            <if test="tag_no != null" >
+                g.tag_no = #{tag_no},
+            </if>
+            <if test="brand_no != null" >
+                g.brand_no = #{brand_no},
+            </if>
+            <if test="business_dev_user_no != null" >
+                g.business_dev_user_no = #{business_dev_user_no},
+            </if>
+            <if test="buy_qus_user_no != null" >
+                g.buy_qus_user_no = #{buy_qus_user_no},
+            </if>
+            <if test="buy_user_no != null" >
+                g.buy_user_no = #{buy_user_no},
+            </if>
+            <if test="length != null" >
+                g.length = #{length},
+            </if>
+            <if test="width != null" >
+                g.width = #{width},
+            </if>
+            <if test="height != null" >
+                g.height = #{height},
+            </if>
+            <if test="weight != null" >
+                g.weight = #{weight},
+            </if>
+            <if test="body_weight_5000 != null" >
+                g.body_weight_5000 = #{body_weight_5000},
+            </if>
+            <if test="body_weight_6000 != null" >
+                g.body_weight_6000 = #{body_weight_6000},
+            </if>
+            <if test="base_price != null" >
+                g.base_price = #{base_price},
+            </if>
+            <if test="sale_price != null" >
+                g.sale_price = #{sale_price},
+            </if>
+            <if test="pic_address != null" >
+                g.pic_address = #{pic_address},
+            </if>
+            <if test="description != null" >
+                g.description = #{description},
+            </if>
+            <if test="easy_discription != null" >
+                g.easy_discription = #{easy_discription},
+            </if>
+            <if test="key_code != null" >
+                g.key_code = #{key_code},
+            </if>
+            <if test="status != null" >
+                g.status = #{status},
+            </if>
+            <if test="remarks != null" >
+                g.remarks = #{remarks},
+            </if>
+            <if test="update_by != null" >
+                g.update_by = #{update_by},
+            </if>
+        </set>
+        where g.id = #{id}
+    </update>
 
 </mapper>

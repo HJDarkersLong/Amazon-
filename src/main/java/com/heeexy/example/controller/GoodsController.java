@@ -8,6 +8,7 @@ import com.heeexy.example.util.constants.DeleteStatus;
 import com.heeexy.example.util.constants.GoodsStatus;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +47,7 @@ public class GoodsController {
         System.out.println(info);
         requestJson.put("create_date",new Timestamp(new Date().getTime()));
         requestJson.put("update_date",new Timestamp(new Date().getTime()));
-        requestJson.put("delete_status",DeleteStatus.DLETE.getKey());
+        requestJson.put("delete_status",DeleteStatus.LIVE.getKey());
         /*CommonUtil.hasAllRequired(requestJson,
                 "name,cn_name,en_name,pcl_no,sku_no," +
                         "other_name,cn_customs_name,en_customs_name,hs_code,category_no," +
@@ -56,10 +57,20 @@ public class GoodsController {
                         "create_by,create_date,update_by, update_date,remarks");*/
         CommonUtil.hasAllRequired(requestJson,
                 "name,sku_no," +
-                        "er_no," +
                         "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
                         "sale_price,status,");
         return goodsService.addGoods(requestJson);
+    }
+    @RequiresPermissions("goods:update")
+    @PostMapping("updateGoods")
+    public JSONObject updayeGoods(@RequestBody JSONObject requestJson) {
+        JSONObject info = loginService.getInfo();
+        requestJson.put("update_date",new Timestamp(new Date().getTime()));
+        CommonUtil.hasAllRequired(requestJson,
+                "name,sku_no," +
+                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
+                        "sale_price,status");
+        return goodsService.updateGoods(requestJson);
     }
 
     /**
