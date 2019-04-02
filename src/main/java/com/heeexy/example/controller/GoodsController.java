@@ -9,12 +9,15 @@ import com.heeexy.example.util.constants.GoodsStatus;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,6 +46,7 @@ public class GoodsController {
     @RequiresPermissions("goods:add")
     @PostMapping("/addGoods")
     public JSONObject addGoods (@RequestBody JSONObject requestJson) {
+        requestJson.put("pic_address",requestJson.get("pic_address").toString().replace("[","").replaceAll("]",""));
         JSONObject info = loginService.getInfo();
         System.out.println(info);
         requestJson.put("create_date",new Timestamp(new Date().getTime()));
@@ -66,6 +70,7 @@ public class GoodsController {
     @PostMapping("updateGoods")
     public JSONObject updayeGoods(@RequestBody JSONObject requestJson) {
         JSONObject info = loginService.getInfo();
+        requestJson.put("pic_address",requestJson.get("pic_address").toString().replace("[","").replaceAll("]",""));
         requestJson.put("update_date",new Timestamp(new Date().getTime()));
         CommonUtil.hasAllRequired(requestJson,
                 "name,sku_no," +

@@ -6,7 +6,10 @@ import com.heeexy.example.service.GoodsService;
 import com.heeexy.example.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -26,6 +29,15 @@ public class GoodsServiceImpl implements GoodsService {
         CommonUtil.fillPageParam(jsonObject);
         int count = goodsDao.countGoods(jsonObject);
         List<JSONObject> list = goodsDao.listGoods(jsonObject);
+        list.forEach(json -> {
+            if(((String)json.get("pic_address")).contains(",")){
+                json.put("pic_address",Arrays.asList(((String)json.get("pic_address")).split(",")));
+            }else{
+                String[] array = { (String)json.get("pic_address") };
+                json.put("pic_address",array);
+            }
+        });
+
         return CommonUtil.successPage(jsonObject, list, count);
     }
 
