@@ -61,6 +61,7 @@ public class GoodsController {
                         "sale_price,status,");
         return goodsService.addGoods(requestJson);
     }
+
     @RequiresPermissions("goods:update")
     @PostMapping("updateGoods")
     public JSONObject updayeGoods(@RequestBody JSONObject requestJson) {
