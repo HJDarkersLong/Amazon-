@@ -4,6 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
 
+/**
+ * Created By HJ on 2019-04-03 11:50:56
+ *
+ * 说明 :
+ */
 public interface GoodsDao {
     /**
      * 新增商品

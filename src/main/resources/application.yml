@@ -3,7 +3,13 @@ spring:
       url: jdbc:mysql://m.uxuan.info:3306/cms?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: kuwan@2017
+#配置自动建表：updata:没有表新建，有表更新操作,控制台显示建表语句
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 mybatis:
    mapperLocations: classpath:/mapper/*.xml
+
 #uploadDir: http://localhost:9520/src/assets/upload
 uploadDir: F:\FINAL\vue
