@@ -25,14 +25,44 @@
     <select id="countGoods" resultType="Integer">
         SELECT count(0)
         FROM goods_base_info g
-        WHERE g.delete_status = '1'
+        <where>
+            <if test="name != null and name !=''" >
+                g.name like  CONCAT('%',#{name},'%') and
+            </if>
+            <if test="sku_no != null and sku_no != '' " >
+                g.sku_no like CONCAT('%',#{sku_no},'%') and
+            </if>
+            <if test="status != null and  status!= ''" >
+                g.status = #{status} and
+            </if>
+            <if test="beginTime != null and  beginTime!= '' and endTime != null and  endTime!= ''" >
+                g.update_date between #{beginTime} and  #{endTime} and
+            </if>
+            g.delete_status = '1'
+        </where>
     </select>
 
     <select id="listGoods" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
             g.*
         FROM goods_base_info g
-        WHERE g.delete_status = '1'
+
+        <where>
+            <if test="name != null and name !=''" >
+                g.name like  CONCAT('%',#{name},'%') and
+            </if>
+            <if test="sku_no != null and sku_no != '' " >
+                g.sku_no like CONCAT('%',#{sku_no},'%') and
+            </if>
+            <if test="status != null and  status!= ''" >
+                g.status = #{status} and
+            </if>
+            <if test="beginTime != null and  beginTime!= '' and endTime != null and  endTime!= ''" >
+                g.update_date between #{beginTime} and  #{endTime} and
+            </if>
+            g.delete_status = '1'
+        </where>
+
         ORDER BY g.id DESC
         LIMIT #{offSet}, #{pageRow}
     </select>

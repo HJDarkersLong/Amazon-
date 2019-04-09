@@ -8,16 +8,11 @@ import com.heeexy.example.util.constants.DeleteStatus;
 import com.heeexy.example.util.constants.GoodsStatus;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jackson.JsonObjectDeserializer;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Array;
 import java.sql.Timestamp;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -37,6 +32,15 @@ public class GoodsController {
     @RequiresPermissions("goods:list")
     @GetMapping("/listGoods")
     public JSONObject listGoods (HttpServletRequest request) {
+        return goodsService.listGoods(CommonUtil.request2Json(request));
+    }
+
+    /**
+     * 查询商品列表(根据参数)
+     */
+    @RequiresPermissions("goods:list")
+    @GetMapping("/listGoodsWithParams")
+    public JSONObject listGoodsWithParams (HttpServletRequest request) {
         return goodsService.listGoods(CommonUtil.request2Json(request));
     }
 
