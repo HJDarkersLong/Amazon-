@@ -11,7 +11,7 @@
              buy_user_no,length,width,height,weight,body_weight_5000,
              body_weight_6000,base_price,sale_price,pic_address,description,
              easy_discription,key_code,status,create_by,create_date,update_by,
-             update_date,remarks,delete_status)
+             update_date,remarks,delete_status,domains)
         VALUES
             (UUID(), #{name}, #{cn_name}, #{en_name}, #{pcl_no}, #{sku_no}, #{other_name},
             #{cn_customs_name}, #{en_customs_name}, #{hs_code}, #{category_no},
@@ -19,7 +19,7 @@
             #{buy_user_no}, #{length}, #{width}, #{height}, #{weight}, #{body_weight_5000},
             #{body_weight_6000}, #{base_price}, #{sale_price}, #{pic_address}, #{description},
             #{easy_discription}, #{key_code}, #{status}, #{create_by}, #{create_date}, #{update_by},
-             #{update_date}, #{remarks}, #{delete_status})
+             #{update_date}, #{remarks}, #{delete_status}, #{domains})
     </insert>
     <!--计算商品个数-->
     <select id="countGoods" resultType="Integer">
@@ -159,6 +159,9 @@
             </if>
             <if test="update_by != null" >
                 g.update_by = #{update_by},
+            </if>
+            <if test="domains != null" >
+                g.domains = #{domains},
             </if>
         </set>
         where g.id = #{id}
