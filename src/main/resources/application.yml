@@ -12,4 +12,5 @@ mybatis:
    mapperLocations: classpath:/mapper/*.xml
 
 #uploadDir: http://localhost:9520/src/assets/upload
-uploadDir: F:\FINAL\vue
+#uploadDir: F:\FINAL\vue
+uploadDir: F:\Amazon\vue
