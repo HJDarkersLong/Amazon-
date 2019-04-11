@@ -65,11 +65,13 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>cms</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>com.heeexy.example.MyApplication</mainClass>
                     <executable>true</executable>
                 </configuration>
             </plugin>
