@@ -8,10 +8,7 @@ import com.heeexy.example.util.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -21,6 +18,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public JSONObject addGoods(JSONObject jsonObject) {
+        handleDomainLinksToString(jsonObject);
         goodsDao.addGoods(jsonObject);
         return CommonUtil.successJson();
     }
@@ -31,9 +29,9 @@ public class GoodsServiceImpl implements GoodsService {
         int count = goodsDao.countGoods(jsonObject);
         List<JSONObject> list = goodsDao.listGoods(jsonObject);
         list.forEach(json -> {
-            handlePicAddress(json);
+            handlePicAddressToArray(json);
 
-            handleDomainLinks(json);
+            handleDomainLinksToArray(json);
         });
 
         return CommonUtil.successPage(jsonObject, list, count);
@@ -43,13 +41,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public JSONObject updateGoods(JSONObject jsonObject) {
-        ArrayList<String> domainArray = new ArrayList<>();
-        ArrayList<HashMap<String, String>> domains = (ArrayList<HashMap<String, String>>) jsonObject.get("domains");
-        domains.forEach(domainMap -> {
-            domainArray.add(domainMap.get("value"));
-        });
-        String domainString = domainArray.toString();
-        jsonObject.put("domains",domainString);
+
+        handleDomainLinksToString(jsonObject);
+
         goodsDao.updateGoods(jsonObject);
         return CommonUtil.successJson();
     }
@@ -60,7 +54,7 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * 说明 : 处理图片地址数组
      */
-    private void handlePicAddress(JSONObject json) {
+    private void handlePicAddressToArray(JSONObject json) {
         if(((String)json.get("pic_address")).contains(",")){
             json.put("pic_address",Arrays.asList(((String)json.get("pic_address")).split(",")));
         }else{
@@ -69,12 +63,13 @@ public class GoodsServiceImpl implements GoodsService {
         }
     }
 
+
     /**
      * Created By HJ on 2019-04-10 11:58:08
      *
      * 说明 : json处理链接数组，传到前台
      */
-    private void handleDomainLinks(JSONObject json) {
+    private void handleDomainLinksToArray(JSONObject json) {
         if(json.get("domains") != null){
 //                if(((String)json.get("domains")).contains(",")){
             //数据库获取的链接数组字符串
@@ -97,6 +92,18 @@ public class GoodsServiceImpl implements GoodsService {
 
             json.put("domains",domainsArray);
         }
-//            }
+    }
+
+    //处理链接地址将数组转成字符串类型存在数据库中
+    private void handleDomainLinksToString (JSONObject jsonObject){
+        ArrayList<String> domainArray = new ArrayList<>();
+        ArrayList<HashMap<String, String>> domains = (ArrayList<HashMap<String, String>>) jsonObject.get("domains");
+        if(!Objects.isNull(domains)){
+            domains.forEach(domainMap -> {
+                domainArray.add(domainMap.get("value"));
+            });
+            String domainString = domainArray.toString();
+            jsonObject.put("domains",domainString);
+        }
     }
 }
