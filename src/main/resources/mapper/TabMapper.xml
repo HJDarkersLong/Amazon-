@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.dao.TabDao">
+    <insert id="addTabInfo" parameterType="com.alibaba.fastjson.JSONObject"  useGeneratedKeys="true" keyProperty="id">
+        insert  into tab_info (type_id,type_id_1,type_id_2,type_id_3,level,name,des,status,createtime)
+        values
+        (#{type_id},#{type_id_1},#{type_id_2},#{type_id_3},#{level},#{name},#{des},#{status},#{createtime})
+    </insert>
+
+    <update id="editTabInfo" parameterType="com.alibaba.fastjson.JSONObject">
+        update tab_info SET
+        updatetime=#{updatetime},
+        <if test="name!=null">
+            name=#{name},
+        </if>
+        <if test="type_id!=null">
+            type_id=#{type_id},
+        </if>
+        <if test="type_id_1!=null">
+            type_id_1=#{type_id_1},
+        </if>
+        <if test="type_id_2!=null">
+            typeid2=#{typeid2},
+        </if>
+        <if test="type_id_3!=null">
+            type_id_3=#{type_id_3},
+        </if>
+        <if test="level!=null">
+            level=#{level},
+        </if>
+        <if test="status!=null">
+            status=#{status},
+        </if>
+        <if test="des!=null">
+            des=#{des}
+        </if>
+        where id=#{id}
+    </update>
+    <update id="delTabInfo" parameterType="com.alibaba.fastjson.JSONObject" >
+        update tab_info set status=0,updatetime=#{updatetime}
+        where typeid=#{typeid}
+    </update>
+
+    <select id="findTabList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select * from tab_info where status=1
+        <if test="name!=null and name!=''">
+            and name like '%'+#{name}+'%'
+        </if>
+        <if test="level!=null and level!='' and level=1 and typeid!=null">
+            and type_id_1=#{typeid} and level=2
+        </if>
+        <if test="level!=null and level!='' and level=2  and typeid!=null">
+            and type_id_2=#{typeid} and level=3
+        </if>
+        ORDER BY id DESC
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="getCount" parameterType="com.alibaba.fastjson.JSONObject" resultType="int">
+        select count(0) from tab_info where status=1
+        <if test="name!=null and name!=''">
+            and name like '%'+#{name}+'%'
+        </if>
+        <if test="level!=null and level!='' and level=1 and typeid!=null">
+            and type_id_1=#{typeid} and level=2
+        </if>
+        <if test="level!=null and level!='' and level=2  and typeid!=null">
+            and type_id_2=#{typeid} and level=3
+        </if>
+    </select>
+
+    <select id="findTabInfo" parameterType="com.alibaba.fastjson.JSONObject" resultType="map">
+        select * from tab_info where status=1
+        <if test="name!=null and name!=''">
+            and name=#{name}
+        </if>
+        <if test="typeid!=null and typeid!=''">
+            and typeid=#{typeid}
+        </if>
+    </select>
+
+    <select id="findTabAllList" resultType="map">
+        select * from tab_info where status=1
+    </select>
+</mapper>
