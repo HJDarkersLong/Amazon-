@@ -30,6 +30,17 @@ public class ArticleController {
 		return articleService.listArticle(CommonUtil.request2Json(request));
 	}
 
+
+	/**
+	 * 查询文章列表作为公告系统
+	 */
+	@GetMapping("/listArticle5Count")
+	public JSONObject listArticle5Count(HttpServletRequest request) {
+		return articleService.listArticle5Count(CommonUtil.request2Json(request));
+	}
+
+
+
 	/**
 	 * 新增文章
 	 */

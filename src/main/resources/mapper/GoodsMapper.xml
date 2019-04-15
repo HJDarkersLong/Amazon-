@@ -63,7 +63,7 @@
             g.delete_status = '1'
         </where>
 
-        ORDER BY g.id DESC
+        ORDER BY g.create_date DESC
         LIMIT #{offSet}, #{pageRow}
     </select>
 

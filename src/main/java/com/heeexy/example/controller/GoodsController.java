@@ -8,6 +8,7 @@ import com.heeexy.example.util.constants.DeleteStatus;
 import com.heeexy.example.util.constants.GoodsStatus;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,9 +30,10 @@ public class GoodsController {
     /**
      * 查询商品列表
      */
+    @Transactional
     @RequiresPermissions("goods:list")
     @GetMapping("/listGoods")
-    public JSONObject listGoods (HttpServletRequest request) {
+    public JSONObject listGoods (HttpServletRequest request) throws RuntimeException {
         return goodsService.listGoods(CommonUtil.request2Json(request));
     }
 
@@ -63,10 +65,10 @@ public class GoodsController {
                         "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
                         "sale_price,pic_address,description,easy_discription,key_code,status," +
                         "create_by,create_date,update_by, update_date,remarks");*/
-        CommonUtil.hasAllRequired(requestJson,
-                "name,sku_no," +
-                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
-                        "sale_price,status,");
+//        CommonUtil.hasAllRequired(requestJson,
+//                "name,sku_no," +
+//                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
+//                        "sale_price,status,");
         return goodsService.addGoods(requestJson);
     }
 
@@ -76,10 +78,10 @@ public class GoodsController {
         JSONObject info = loginService.getInfo();
         requestJson.put("pic_address",requestJson.get("pic_address").toString().replace("[","").replaceAll("]",""));
         requestJson.put("update_date",new Timestamp(new Date().getTime()));
-        CommonUtil.hasAllRequired(requestJson,
-                "name,sku_no," +
-                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
-                        "sale_price,status");
+//        CommonUtil.hasAllRequired(requestJson,
+//                "name,sku_no," +
+//                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
+//                        "sale_price,status");
         return goodsService.updateGoods(requestJson);
     }
 

@@ -21,4 +21,9 @@ public interface ArticleService {
 	 * 更新文章
 	 */
 	JSONObject updateArticle(JSONObject jsonObject);
+
+	/**
+	 * 查询前五条消息作为公告
+	 */
+	JSONObject listArticle5Count(JSONObject jsonObject);
 }

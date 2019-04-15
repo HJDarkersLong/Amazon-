@@ -42,6 +42,15 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	/**
+	 * 查询前五条消息作为公告
+	 */
+	@Override
+	public JSONObject listArticle5Count(JSONObject jsonObject) {
+		List<JSONObject> list = articleDao.listArticle5Count(jsonObject);
+		return CommonUtil.successJson(list);
+	}
+
+	/**
 	 * 更新文章
 	 */
 	@Override
@@ -50,4 +59,6 @@ public class ArticleServiceImpl implements ArticleService {
 		articleDao.updateArticle(jsonObject);
 		return CommonUtil.successJson();
 	}
+
+
 }

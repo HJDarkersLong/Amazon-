@@ -26,6 +26,12 @@ public interface ArticleDao {
 	List<JSONObject> listArticle(JSONObject jsonObject);
 
 	/**
+	 *  查询前五条数据作为公告栏
+	 */
+	List<JSONObject> listArticle5Count(JSONObject jsonObject);
+
+
+	/**
 	 * 更新文章
 	 */
 	int updateArticle(JSONObject jsonObject);

@@ -27,6 +27,19 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
+
+
+    <select id="listArticle5Count" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            w.id                                      id,
+            w.content                                 content,
+            date_format(w.create_time, '%Y.%m.%d %T') createTime
+        FROM article w
+        WHERE w.delete_status = '1'
+        ORDER BY w.create_time DESC
+        LIMIT 5
+    </select>
+
     <update id="updateArticle" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE article
         SET
