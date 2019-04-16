@@ -190,6 +190,23 @@ public class CommonUtil {
 		paramObject.remove("pageSize");
 	}
 
+	public static boolean isEmpty(Object object){
+		if(object==null)
+			return true;
+		return false;
+	}
+
+	public static boolean isEmpty(String object){
+		if(object==null || "".equals(object))
+			return true;
+		return false;
+	}
+
+	public static String  getString(Object object){
+		if(isEmpty(object))
+			return null;
+		return object.toString();
+	}
 	/**
 	 * 分页查询之前的处理参数
 	 * 没有传pageRow参数时,默认每页10条.
