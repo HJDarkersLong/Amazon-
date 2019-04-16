@@ -69,7 +69,8 @@ public class GoodsController {
 //                "name,sku_no," +
 //                        "length,width,height,weight,body_weight_5000,body_weight_6000,base_price," +
 //                        "sale_price,status,");
-        return goodsService.addGoods(requestJson);
+        JSONObject jsonObject = goodsService.addGoods(requestJson);
+        return jsonObject;
     }
 
     @RequiresPermissions("goods:update")

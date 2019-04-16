@@ -1,24 +1,36 @@
 package com.heeexy.example.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.dao.GoodsDao;
 import com.heeexy.example.service.GoodsService;
 import com.heeexy.example.util.CommonUtil;
+import com.heeexy.example.util.constants.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private GoodsDao goodsDao;
 
     @Override
-    public JSONObject addGoods(JSONObject jsonObject) {
+    public JSONObject addGoods(JSONObject jsonObject) throws RuntimeException {
+        // 将渠道链接转成字符串存在对象中
         handleDomainLinksToString(jsonObject);
+
+        // 查询sku 编号是否唯一
+        String sku_no = jsonObject.getString("sku_no");
+        JSONObject json = new JSONObject();
+        json.put("sku_no",sku_no);
+        List<JSONObject> jsonObjects = goodsDao.queryBySku(json);
+        if (jsonObjects.size() > 0){
+            return CommonUtil.errorJson(ErrorEnum.E_30002);
+        }
         goodsDao.addGoods(jsonObject);
         return CommonUtil.successJson();
     }
@@ -41,9 +53,23 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public JSONObject updateGoods(JSONObject jsonObject) {
-
+        // 将渠道链接转成字符串存在对象中
         handleDomainLinksToString(jsonObject);
 
+        // 修改查询sku是否唯一
+        String sku_no = jsonObject.getString("sku_no");
+        JSONObject json = new JSONObject();
+        json.put("sku_no",sku_no);
+        List<JSONObject> queryBySku = goodsDao.queryBySku(json);
+        if(queryBySku.size() == 1){//只查询到一条数据，判断该数据是否为正要修改的数据
+            String editId = queryBySku.get(0).getString("id");
+            if(!jsonObject.getString("id").equals(editId)){//sku相等，id不相等，证明不可修改，sku冲突
+                return CommonUtil.errorJson(ErrorEnum.E_30002);
+            }
+        }
+        if(queryBySku.size() >1 ) {
+            return CommonUtil.errorJson(ErrorEnum.E_30003);
+        }
         goodsDao.updateGoods(jsonObject);
         return CommonUtil.successJson();
     }

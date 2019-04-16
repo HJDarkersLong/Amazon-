@@ -24,6 +24,27 @@ public class CommonUtil {
 	}
 
 	/**
+	 * 返回 code 为100 的成功消息
+	 */
+	public static JSONObject successJson100() {
+		JSONObject resultJson = new JSONObject();
+		resultJson.put("code", Constants.SUCCESS_CODE);
+		resultJson.put("msg", Constants.SUCCESS_MSG);
+		return resultJson;
+	}
+
+	/**
+	 * 返回 code 为100 的失败消息消息
+	 */
+	public static JSONObject failureJson(String code,String info) {
+		JSONObject resultJson = new JSONObject();
+		resultJson.put("code", Constants.SUCCESS_CODE);
+		resultJson.put("msg", Constants.FAILURE_MSG);
+		resultJson.put("info", info);
+		return resultJson;
+	}
+
+	/**
 	 * 返回一个返回码为100的json
 	 */
 	public static JSONObject successJson(Object info) {
@@ -169,28 +190,11 @@ public class CommonUtil {
 		paramObject.remove("pageSize");
 	}
 
-	public static boolean isEmpty(Object object){
-		if(object==null)
-			return true;
-		return false;
-	}
-
-	public static boolean isEmpty(String object){
-		if(object==null || "".equals(object))
-			return true;
-		return false;
-	}
-
-	public static String  getString(Object object){
-		if(isEmpty(object))
-			return null;
-		return object.toString();
-	}
 	/**
 	 * 分页查询之前的处理参数
 	 * 没有传pageRow参数时,默认每页10条.
 	 */
-	public static void  fillPageParam(final JSONObject paramObject) {
+	public static void fillPageParam(final JSONObject paramObject) {
 		fillPageParam(paramObject, 10);
 	}
 }

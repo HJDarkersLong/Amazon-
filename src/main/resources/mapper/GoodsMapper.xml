@@ -42,6 +42,18 @@
         </where>
     </select>
 
+    <select id="queryBySku" resultType="com.alibaba.fastjson.JSONObject">
+        SELECT
+            g.*
+        FROM goods_base_info g
+        where
+            g.sku_no = #{sku_no}
+        AND
+        g.delete_status = '1'
+
+    </select>
+
+
     <select id="listGoods" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
             g.*

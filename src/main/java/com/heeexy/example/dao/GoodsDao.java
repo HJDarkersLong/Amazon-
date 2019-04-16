@@ -29,4 +29,9 @@ public interface GoodsDao {
      * 更新商品
      */
     int updateGoods(JSONObject jsonObject);
+
+    /**
+     * 跟据sku_no 查询
+     */
+    List<JSONObject> queryBySku(JSONObject jsonObject);
 }
