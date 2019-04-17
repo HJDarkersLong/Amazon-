@@ -1,16 +1,10 @@
 package com.heeexy.example.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.dao.TabDao;
-import com.heeexy.example.dao.UserDao;
 import com.heeexy.example.service.TabService;
-import com.heeexy.example.service.UserService;
 import com.heeexy.example.util.CommonUtil;
 import com.heeexy.example.util.constants.DeleteStatus;
-import com.heeexy.example.util.constants.ErrorEnum;
-import javafx.scene.control.Tab;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,43 +60,57 @@ public class TabServiceImpl implements TabService {
 
 	@Override
 	public JSONObject findTabListToTree(JSONObject jsonObject) throws Exception{
-		List<Map<String,Object>> list=tabDao.findTabAllList();
-		List<Map<String,Object>> type=new ArrayList<>();
+		List<Map<String,Object>> list=tabDao.findTabAllList();//所有的分类
+		List<Map<String,Object>> type=new ArrayList<>();//所有一级分类
 		if(list!=null && list.size()>0){
-			List<Map<String,Object>> type2=new ArrayList<>();
+			List<Map<String,Object>> type2=new ArrayList<>();//所有二级分类
+
+			// 遍历所有数据筛选出一级分类放入type
 			for(Map<String,Object> map:list){
 				Map<String,Object> m=new HashMap<>();
 				if(!CommonUtil.isEmpty(map.get("type_id_1")) && CommonUtil.isEmpty(map.get("type_id_2"))){
-					m.put("lable",map.get("name"));
-					m.put("value",map.get("type_id"));
+					m.put("label",map.get("name"));
+					m.put("id",map.get("type_id"));
+					m.put("addAble",true);
+					m.put("delAble",true);
 					type.add(m);
 				}
 			}
+
+			// 遍历所有分类筛选出二级分类 放入 type2
 			for(Map<String,Object> map:list){
 				Map<String,Object> m=new HashMap<>();
 				if(!CommonUtil.isEmpty(map.get("type_id_2")) && CommonUtil.isEmpty(map.get("type_id_3"))){
-					m.put("lable",map.get("name"));
-					m.put("value",map.get("type_id"));
-					m.put("type_id_1",map.get("type_id_1"));
+					m.put("label",map.get("name"));
+					m.put("id",map.get("type_id"));
+					m.put("parentId",map.get("type_id_1"));
+					m.put("addAble",true);
+					m.put("delAble",true);
 					type2.add(m);
 				}
 			}
+
+			// 遍历所有的二级分类 type2 将三级分类注入到二级分类中
 			for(Map<String,Object> m:type2){
 				List<Map<String,Object>> children=new ArrayList<>();
 				for(Map<String,Object> map:list){
 					if(!CommonUtil.isEmpty(map.get("type_id_3"))
-							&& CommonUtil.getString(m.get("value")).equals(CommonUtil.getString(map.get("type_id_2"))) ){
-						map.put("lable",map.get("name"));
-						map.put("value",map.get("type_id"));
+							&& CommonUtil.getString(m.get("id")).equals(CommonUtil.getString(map.get("type_id_2"))) ){
+						map.put("label",map.get("name"));
+						map.put("id",map.get("type_id"));
+						map.put("parentId",map.get("type_id_2"));
+						map.put("addAble",true);
+						map.put("delAble",true);
 						children.add(map);
 					}
 				}
 				m.put("children",children);
 			}
+			// 遍历所有的一级分类  吧二级分类注入进去
 			for(Map<String,Object> m:type){
 				List<Map<String,Object>> children=new ArrayList<>();
 				for(Map<String,Object> map:type2){
-					if(CommonUtil.getString(m.get("value")).equals(CommonUtil.getString(map.get("type_id_1"))) ){
+					if(CommonUtil.getString(m.get("id")).equals(CommonUtil.getString(map.get("parentId"))) ){
 						children.add(map);
 					}
 				}

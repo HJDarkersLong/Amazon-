@@ -24,20 +24,20 @@ public class TabInfo {
      * 渠 道 鉴 权token
      */
     @Column(length = 128)
-    private String typeid;
+    private String type_id;
     /**
      *
      */
     @Column(length = 128)
-    private String typeid1;
+    private String type_id_1;
     /**
      *
      */
     @Column(length = 128)
-    private String typeid2;
+    private String type_id_2;
 
     @Column(length = 128)
-    private String typeid3;
+    private String type_id_3;
 
     @Column(length = 128)
     private String level;

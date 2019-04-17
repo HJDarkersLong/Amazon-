@@ -30,7 +30,7 @@ public class TabController {
     @GetMapping("/listSort")
     public JSONObject findTabList(HttpServletRequest request){
         try {
-            return tabService.findTabList(CommonUtil.request2Json(request));
+            return tabService.findTabListToTree(CommonUtil.request2Json(request));
         }catch (Exception e){
             e.printStackTrace();
             return CommonUtil.errorJson(ErrorEnum.E_400);
