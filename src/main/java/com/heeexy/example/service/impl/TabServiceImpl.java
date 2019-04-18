@@ -5,6 +5,7 @@ import com.heeexy.example.dao.TabDao;
 import com.heeexy.example.service.TabService;
 import com.heeexy.example.util.CommonUtil;
 import com.heeexy.example.util.constants.DeleteStatus;
+import com.heeexy.example.util.constants.ErrorEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,36 +27,60 @@ public class TabServiceImpl implements TabService {
 	@Override
 	public JSONObject addTabInfo(JSONObject jsonObject) throws Exception {
 		jsonObject.put("type_id",UUID.randomUUID().toString());
-		if("1".equals(jsonObject.getString("level")))
-			jsonObject.put("type_id_1",UUID.randomUUID().toString());
-		else if("2".equals(jsonObject.getString("level")))
-			jsonObject.put("type_id_2",UUID.randomUUID().toString());
-		else if("3".equals(jsonObject.getString("level")))
-			jsonObject.put("type_id_3",UUID.randomUUID().toString());
+		if("1".equals(jsonObject.getString("level"))){
+			jsonObject.put("type_id_1",jsonObject.getString("type_id"));
+		}
+		else if("2".equals(jsonObject.getString("level"))){
+			jsonObject.put("type_id_2",jsonObject.getString("type_id"));
+			jsonObject.put("type_id_1",jsonObject.getString("parentId"));
+		}
+		else if("3".equals(jsonObject.getString("level"))){
+			jsonObject.put("type_id_3",jsonObject.getString("type_id"));
+			jsonObject.put("type_id_2",jsonObject.getString("parentId"));
+		}
 		jsonObject.put("status", DeleteStatus.LIVE.getKey());
 		jsonObject.put("create_date",new Timestamp(new Date().getTime()));
 		jsonObject.put("update_date",new Timestamp(new Date().getTime()));
 		if(tabDao.addTabInfo(jsonObject)) {
-			throw new Exception("添加失败");
+			jsonObject.put("label",jsonObject.getString("name"));
+			if(jsonObject.getIntValue("level")<3){
+				jsonObject.put("addAble",true);
+			}else{
+				jsonObject.put("addAble",false);
+			}
+			jsonObject.put("delAble",true);
+			return CommonUtil.successJson(jsonObject);
+		}else{
+			return CommonUtil.errorJson(ErrorEnum.E_30001);
 		}
-		return CommonUtil.successJson();
 	}
 
 	@Override
 	public JSONObject editTabInfo(JSONObject jsonObject) throws Exception{
 		jsonObject.put("update_date",new Timestamp(new Date().getTime()));
 		if(tabDao.editTabInfo(jsonObject)) {
-			throw new Exception("修改失败");
+			return CommonUtil.successJson();
+		}else{
+			return CommonUtil.errorJson(ErrorEnum.E_30001);
 		}
-		return CommonUtil.successJson();
 	}
 
 	@Override
 	public JSONObject delTabInfo(JSONObject jsonObject) throws Exception{
-		if(tabDao.delTabInfo(jsonObject)) {
-			throw new Exception("删除失败");
+		if(jsonObject.getString("level").equals("3")){
+			tabDao.delTabInfo(jsonObject);
+			return CommonUtil.successJson(jsonObject);
 		}
-		return CommonUtil.successJson();
+		Integer sortsCount = tabDao.getSortsCount(jsonObject);
+		if(sortsCount > 0){
+			return CommonUtil.errorJson(ErrorEnum.E_30005);
+		}
+		if(tabDao.delTabInfo(jsonObject)) {
+			return CommonUtil.successJson(jsonObject);
+		}else{
+			return CommonUtil.errorJson(ErrorEnum.E_30004);
+		}
+
 	}
 
 	@Override
@@ -99,7 +124,7 @@ public class TabServiceImpl implements TabService {
 						map.put("label",map.get("name"));
 						map.put("id",map.get("type_id"));
 						map.put("parentId",map.get("type_id_2"));
-						map.put("addAble",true);
+						map.put("addAble",false);
 						map.put("delAble",true);
 						children.add(map);
 					}

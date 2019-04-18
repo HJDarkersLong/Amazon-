@@ -43,7 +43,7 @@ public class TabInfo {
     private String level;
 
     @Column(length = 128)
-    private String dsc;
+    private String des;
     /**
      * 更新时间
      */

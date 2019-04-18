@@ -1,7 +1,6 @@
 package com.heeexy.example.dao;
 
 import com.alibaba.fastjson.JSONObject;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -21,4 +20,6 @@ public interface TabDao {
      Integer getCount(JSONObject jsonObject);
 
      List<Map<String,Object>> findTabAllList();
+
+     Integer getSortsCount (JSONObject jsonObject);
 }

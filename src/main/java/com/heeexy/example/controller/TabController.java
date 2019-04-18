@@ -7,6 +7,7 @@ import com.heeexy.example.util.constants.ErrorEnum;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,6 +47,11 @@ public class TabController {
         }
     }
 
+    /**
+     * 添加分类
+     */
+    @RequiresPermissions("sort:add")
+    @PostMapping("/addSort")
     public JSONObject addTabInfo(HttpServletRequest request){
         try {
             return tabService.addTabInfo(CommonUtil.request2Json(request));
@@ -64,6 +70,11 @@ public class TabController {
         }
     }
 
+    /**
+     * 删除分类
+     */
+    @RequiresPermissions("sort:update")
+    @GetMapping("/delSort")
     public JSONObject delTabInfo(HttpServletRequest request){
         try {
             return tabService.delTabInfo(CommonUtil.request2Json(request));

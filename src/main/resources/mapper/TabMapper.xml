@@ -3,14 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.heeexy.example.dao.TabDao">
     <insert id="addTabInfo" parameterType="com.alibaba.fastjson.JSONObject"  useGeneratedKeys="true" keyProperty="id">
-        insert  into tab_info (type_id,type_id_1,type_id_2,type_id_3,level,name,des,status,createtime)
+        insert  into tab_info (id,type_id,type_id_1,type_id_2,type_id_3,level,name,des,status,create_time,update_time)
         values
-        (#{type_id},#{type_id_1},#{type_id_2},#{type_id_3},#{level},#{name},#{des},#{status},#{createtime})
+        (#{type_id},#{type_id},#{type_id_1},#{type_id_2},#{type_id_3},#{level},#{name},#{des},#{status},#{create_time},#{update_time})
     </insert>
 
     <update id="editTabInfo" parameterType="com.alibaba.fastjson.JSONObject">
         update tab_info SET
-        updatetime=#{updatetime},
+        updatetime=#{update_time},
         <if test="name!=null">
             name=#{name},
         </if>
@@ -38,8 +38,8 @@
         where id=#{id}
     </update>
     <update id="delTabInfo" parameterType="com.alibaba.fastjson.JSONObject" >
-        update tab_info set status=0,updatetime=#{updatetime}
-        where typeid=#{typeid}
+        update tab_info set status=0,update_time=#{updatetime}
+        where type_id=#{typeid}
     </update>
 
     <select id="findTabList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
@@ -82,5 +82,15 @@
 
     <select id="findTabAllList" resultType="map">
         select * from tab_info where status=1
+    </select>
+
+    <select id="getSortsCount" parameterType="com.alibaba.fastjson.JSONObject" resultType="int">
+        select count(0) from tab_info where status =1
+        <if test="level == 1">
+            and level=2 and type_id_1 =#{typeid}
+        </if>
+        <if test="level == 2">
+            and level=3 and type_id_2 =#{typeid}
+        </if>
     </select>
 </mapper>
