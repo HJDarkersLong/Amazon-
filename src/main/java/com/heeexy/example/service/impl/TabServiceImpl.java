@@ -35,8 +35,13 @@ public class TabServiceImpl implements TabService {
 			jsonObject.put("type_id_1",jsonObject.getString("parentId"));
 		}
 		else if("3".equals(jsonObject.getString("level"))){
+			JSONObject firstTabJson = new JSONObject();
+			firstTabJson.put("typeid", jsonObject.getString("parentId"));
+			Map<String, Object> firstTab = tabDao.findTabInfo(firstTabJson);
+			String type_id_1 = (String)firstTab.get("type_id_1");
 			jsonObject.put("type_id_3",jsonObject.getString("type_id"));
 			jsonObject.put("type_id_2",jsonObject.getString("parentId"));
+			jsonObject.put("type_id_1",type_id_1);
 		}
 		jsonObject.put("status", DeleteStatus.LIVE.getKey());
 		jsonObject.put("create_date",new Timestamp(new Date().getTime()));
@@ -96,6 +101,7 @@ public class TabServiceImpl implements TabService {
 				if(!CommonUtil.isEmpty(map.get("type_id_1")) && CommonUtil.isEmpty(map.get("type_id_2"))){
 					m.put("label",map.get("name"));
 					m.put("id",map.get("type_id"));
+					m.put("value",map.get("type_id"));
 					m.put("addAble",true);
 					m.put("delAble",true);
 					type.add(m);
@@ -108,6 +114,7 @@ public class TabServiceImpl implements TabService {
 				if(!CommonUtil.isEmpty(map.get("type_id_2")) && CommonUtil.isEmpty(map.get("type_id_3"))){
 					m.put("label",map.get("name"));
 					m.put("id",map.get("type_id"));
+					m.put("value",map.get("type_id"));
 					m.put("parentId",map.get("type_id_1"));
 					m.put("addAble",true);
 					m.put("delAble",true);
@@ -123,6 +130,7 @@ public class TabServiceImpl implements TabService {
 							&& CommonUtil.getString(m.get("id")).equals(CommonUtil.getString(map.get("type_id_2"))) ){
 						map.put("label",map.get("name"));
 						map.put("id",map.get("type_id"));
+						map.put("value",map.get("type_id"));
 						map.put("parentId",map.get("type_id_2"));
 						map.put("addAble",false);
 						map.put("delAble",true);

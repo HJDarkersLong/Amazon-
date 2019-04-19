@@ -38,6 +38,10 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public JSONObject listGoods(JSONObject jsonObject) {
         CommonUtil.fillPageParam(jsonObject);
+        if(!CommonUtil.isEmpty(jsonObject.getString("categoryArray").trim())){
+            String[] categoryArrays = jsonObject.getString("categoryArray").split(",");
+            jsonObject.put("category_no",categoryArrays[categoryArrays.length -1]);
+        }
         int count = goodsDao.countGoods(jsonObject);
         List<JSONObject> list = goodsDao.listGoods(jsonObject);
         list.forEach(json -> {
