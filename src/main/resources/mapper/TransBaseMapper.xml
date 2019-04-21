@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.dao.TransBaseDao">
+    <insert id="addTransBase" parameterType="com.alibaba.fastjson.JSONObject"  useGeneratedKeys="true" keyProperty="id">
+        insert  into trans_base_info (id,contry_name,min_weight,max_weight,oper_cost,freight_price,trans_type_id,service_day,track_flag,
+        create_time,update_time,status.memo)
+        values
+        (UUID(),#{contry_name},#{min_weight},#{max_weight},#{oper_cost},#{freight_price},#{trans_type_id},#{service_day},#{track_flag},
+        #{create_time},#{update_time},#{status},#{memo})
+    </insert>
+
+    <update id="editTransBase" parameterType="com.alibaba.fastjson.JSONObject">
+        update trans_base_info SET
+        updatetime=#{update_time},
+        <if test="contry_name!=null">
+            contry_name=#{contry_name},
+        </if>
+        <if test="min_weight!=null">
+            min_weight=#{min_weight},
+        </if>
+        <if test="max_weight!=null">
+            max_weight=#{max_weight},
+        </if>
+        <if test="oper_cost!=null">
+            oper_cost=#{oper_cost},
+        </if>
+        <if test="freight_price!=null">
+            freight_price=#{freight_price},
+        </if>
+        <if test="trans_type_id!=null">
+            trans_type_id=#{trans_type_id},
+        </if>
+        <if test="service_day!=null">
+            service_day=#{service_day},
+        </if>
+        <if test="track_flag!=null">
+            track_flag=#{track_flag},
+        </if>
+        <if test="status!=null">
+            status=#{status},
+        </if>
+        <if test="memo!=null">
+            memo=#{memo}
+        </if>
+        where id=#{id}
+    </update>
+    <update id="delTransBase" parameterType="com.alibaba.fastjson.JSONObject" >
+        update trans_base_info set status=0,update_time=#{updatetime}
+        where id=#{id}
+    </update>
+
+    <update id="delTransBaseByTransType" parameterType="com.alibaba.fastjson.JSONObject" >
+        update trans_base_info set status=0,update_time=#{updatetime}
+        where trans_type_id=#{trans_type_id}
+    </update>
+
+    <select id="findTransBaseList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select base.*,type.name as typename from trans_base_info base
+        left join trans_type_info  type on type.id=base.trans_type_id and type.status=1
+        where status=1
+        <if test="name!=null and name!=''">
+            and base.name like '%'+#{name}+'%'
+        </if>
+        <if test="trans_type_id!=null and trans_type_id!=''">
+            and base.trans_type_id=#{trans_type_id}
+        </if>
+        ORDER BY id DESC
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="getCount" parameterType="com.alibaba.fastjson.JSONObject" resultType="int">
+        select count(0) from trans_base_info where status=1
+        <if test="name!=null and name!=''">
+            and name like '%'+#{name}+'%'
+        </if>
+        <if test="trans_type_id!=null and trans_type_id!=''">
+            and trans_type_id=#{trans_type_id}
+        </if>
+    </select>
+</mapper>

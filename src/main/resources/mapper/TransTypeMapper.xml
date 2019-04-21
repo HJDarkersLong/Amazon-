@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.heeexy.example.dao.TransTypeDao">
+    <insert id="addTransType" parameterType="com.alibaba.fastjson.JSONObject"  useGeneratedKeys="true" keyProperty="id">
+        insert  into trans_type_info (id,name,memo,status,create_time,update_time)
+        values
+        (UUID(),#{name},#{memo},#{status},#{create_time},#{update_time})
+    </insert>
+
+    <update id="editTransType" parameterType="com.alibaba.fastjson.JSONObject">
+        update trans_type_info SET
+        updatetime=#{update_time},
+        <if test="name!=null">
+            name=#{name},
+        </if>
+        <if test="status!=null">
+            status=#{status},
+        </if>
+        <if test="memo!=null">
+            memo=#{memo}
+        </if>
+        where id=#{id}
+    </update>
+    <update id="delTransType" parameterType="com.alibaba.fastjson.JSONObject" >
+        update trans_type_info set status=0,update_time=#{updatetime}
+        where id=#{id}
+    </update>
+
+    <select id="findTransTypeList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select * from trans_type_info where status=1
+        <if test="contry_name!=null and contry_name!=''">
+            and contry_name =#{contry_name}
+        </if>
+        ORDER BY id DESC
+        LIMIT #{offSet}, #{pageRow}
+    </select>
+
+    <select id="getCount" parameterType="com.alibaba.fastjson.JSONObject" resultType="int">
+        select count(0) from trans_type_info where status=1
+        <if test="contry_name!=null and contry_name!=''">
+            and contry_name =#{contry_name}
+        </if>
+    </select>
+</mapper>
