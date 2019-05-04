@@ -20,7 +20,7 @@ public class TransBaseInfo {
     private Integer id;
 
     /**
-     * 渠 道 鉴 权token
+     * 国家名字
      */
     @Column(length = 128)
     private String contryName;
