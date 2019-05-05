@@ -21,7 +21,7 @@
             type_id_1=#{type_id_1},
         </if>
         <if test="type_id_2!=null">
-            typeid2=#{typeid2},
+            type_id_2=#{typeid2},
         </if>
         <if test="type_id_3!=null">
             type_id_3=#{type_id_3},
@@ -76,7 +76,7 @@
             and name=#{name}
         </if>
         <if test="typeid!=null and typeid!=''">
-            and typeid=#{typeid}
+            and type_id=#{typeid}
         </if>
     </select>
 

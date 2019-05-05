@@ -38,7 +38,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public JSONObject listGoods(JSONObject jsonObject) {
         CommonUtil.fillPageParam(jsonObject);
-        if(!CommonUtil.isEmpty(jsonObject.getString("categoryArray").trim())){
+        if(!CommonUtil.isEmpty(jsonObject.getString("categoryArray"))){
             String[] categoryArrays = jsonObject.getString("categoryArray").split(",");
             jsonObject.put("category_no",categoryArrays[categoryArrays.length -1]);
         }

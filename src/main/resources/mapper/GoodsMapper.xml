@@ -57,13 +57,15 @@
     <select id="listGoods" resultType="com.alibaba.fastjson.JSONObject">
         SELECT
             *
-        FROM goods_base_info g
+        FROM goods_base_info g left join tab_info t on (g.category_no = t.id)
         <where>
             <if test="name != null and name !=''" >
                 g.name like  CONCAT('%',#{name},'%') and
             </if>
             <if test="category_no != null and category_no !=''" >
-                g.category_no like  CONCAT('%',#{category_no},'%') and
+                (t.type_id_1 = #{category_no} or
+                t.type_id_2 = #{category_no} or
+                t.type_id_3 = #{category_no}) and
             </if>
             <if test="sku_no != null and sku_no != '' " >
                 g.sku_no like CONCAT('%',#{sku_no},'%') and
