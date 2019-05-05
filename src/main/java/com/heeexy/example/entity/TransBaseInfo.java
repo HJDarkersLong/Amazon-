@@ -48,7 +48,7 @@ public class TransBaseInfo {
      * 运输方式id
      */
     @Column(length = 10)
-    private Integer transTypeid;
+    private Integer transTypeId;
     /**
      * 送达天数
      */

@@ -58,7 +58,7 @@
     <select id="findTransBaseList" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
         select base.*,type.name as typename from trans_base_info base
         left join trans_type_info  type on type.id=base.trans_type_id and type.status=1
-        where status=1
+        where base.status=1
         <if test="name!=null and name!=''">
             and base.name like '%'+#{name}+'%'
         </if>

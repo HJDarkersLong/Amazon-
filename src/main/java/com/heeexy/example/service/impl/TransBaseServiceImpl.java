@@ -2,9 +2,7 @@ package com.heeexy.example.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.dao.TransBaseDao;
-import com.heeexy.example.dao.TransTypeDao;
 import com.heeexy.example.service.TransBaseService;
-import com.heeexy.example.service.TransTypeService;
 import com.heeexy.example.util.CommonUtil;
 import com.heeexy.example.util.constants.DeleteStatus;
 import com.heeexy.example.util.constants.ErrorEnum;
@@ -12,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.*;
@@ -84,7 +80,7 @@ public class TransBaseServiceImpl implements TransBaseService {
 	}
 
 	@Override
-	public JSONObject findTransBaseList(JSONObject jsonObject) throws Exception{
+	public JSONObject findTransBaseList(JSONObject jsonObject) {
 		String contry_name=jsonObject.getString("contry_name");
 		BigDecimal weight=new BigDecimal(jsonObject.getString("weight"));
 		CommonUtil.fillPageParam(jsonObject);
@@ -119,4 +115,14 @@ public class TransBaseServiceImpl implements TransBaseService {
 	public JSONObject findTransBase(JSONObject jsonObject) throws Exception {
 		return CommonUtil.successJson(transBaseDao.findTransBase(jsonObject));
 	}
+
+	@Override
+	public JSONObject listTransport(JSONObject jsonObject)  {
+		CommonUtil.fillPageParam(jsonObject);
+		int count = transBaseDao.getCount(jsonObject);
+		List<JSONObject> list = transBaseDao.findTransBaseList(jsonObject);
+		return CommonUtil.successPage(jsonObject, list, count);
+	}
+
+
 }

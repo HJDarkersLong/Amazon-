@@ -18,8 +18,10 @@ public interface TransBaseService {
 
 	public JSONObject delTransBaseByTransType(JSONObject jsonObject) throws Exception;
 
-	public JSONObject findTransBaseList(JSONObject jsonObject) throws Exception;
+	public JSONObject findTransBaseList(JSONObject jsonObject) ;
 
 	public JSONObject findTransBase(JSONObject jsonObject) throws Exception;
+
+	public JSONObject listTransport(JSONObject jsonObject) ;
 
 }
