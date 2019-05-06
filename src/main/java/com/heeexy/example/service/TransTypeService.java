@@ -20,4 +20,6 @@ public interface TransTypeService {
 
 	public JSONObject findTransType(JSONObject jsonObject) throws Exception;
 
+	public JSONObject findAllTransType()  ;
+
 }

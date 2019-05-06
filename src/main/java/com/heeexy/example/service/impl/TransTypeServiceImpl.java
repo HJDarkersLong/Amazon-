@@ -70,4 +70,10 @@ public class TransTypeServiceImpl implements TransTypeService {
 	public JSONObject findTransType(JSONObject jsonObject) throws Exception {
 		return CommonUtil.successJson(transTypeDao.findTransType(jsonObject));
 	}
+
+	@Override
+	public JSONObject findAllTransType() {
+		return CommonUtil.successJson(transTypeDao.findAllTransType());
+	}
+
 }

@@ -15,8 +15,12 @@ public interface TransTypeDao {
 
      List<JSONObject> findTransTypeList(JSONObject jsonObject);
 
+     List<JSONObject> findAllTransType();
+
      Map<String,Object> findTransType(JSONObject jsonObject);
 
      Integer getCount(JSONObject jsonObject);
+
+
 
 }

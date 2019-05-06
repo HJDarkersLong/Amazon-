@@ -36,6 +36,10 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
+    <select id="findAllTransType" parameterType="com.alibaba.fastjson.JSONObject" resultType="com.alibaba.fastjson.JSONObject">
+        select * from trans_type_info where status=1
+    </select>
+
     <select id="getCount" parameterType="com.alibaba.fastjson.JSONObject" resultType="int">
         select count(0) from trans_type_info where status=1
         <if test="contry_name!=null and contry_name!=''">

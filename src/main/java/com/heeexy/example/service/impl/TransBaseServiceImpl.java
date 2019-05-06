@@ -2,6 +2,7 @@ package com.heeexy.example.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.heeexy.example.dao.TransBaseDao;
+import com.heeexy.example.dao.TransTypeDao;
 import com.heeexy.example.service.TransBaseService;
 import com.heeexy.example.util.CommonUtil;
 import com.heeexy.example.util.constants.DeleteStatus;
@@ -24,6 +25,8 @@ import java.util.*;
 public class TransBaseServiceImpl implements TransBaseService {
 	@Autowired
 	private TransBaseDao transBaseDao;
+	@Autowired
+    private TransTypeDao transTypeDao;
 
 	@Override
 	public JSONObject addTransBase(JSONObject jsonObject) throws Exception {
@@ -120,7 +123,7 @@ public class TransBaseServiceImpl implements TransBaseService {
 	public JSONObject listTransport(JSONObject jsonObject)  {
 		CommonUtil.fillPageParam(jsonObject);
 		int count = transBaseDao.getCount(jsonObject);
-		List<JSONObject> list = transBaseDao.findTransBaseList(jsonObject);
+        List<JSONObject> list = transBaseDao.findTransBaseList(jsonObject);
 		return CommonUtil.successPage(jsonObject, list, count);
 	}
 
