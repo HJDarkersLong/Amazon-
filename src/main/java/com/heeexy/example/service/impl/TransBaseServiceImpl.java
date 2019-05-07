@@ -95,7 +95,8 @@ public class TransBaseServiceImpl implements TransBaseService {
 				BigDecimal operCost=new BigDecimal(json.getString("oper_cost"));//操作费
 				BigDecimal freightPrice=new BigDecimal(json.getString("freight_price"));//运费单价
 				BigDecimal transPrice=new BigDecimal(0);//操作费
-				transPrice=operCost.add(freightPrice.divide(new BigDecimal(1000)).multiply(weight));
+//				transPrice=operCost.add(freightPrice.divide(new BigDecimal(1000)).multiply(weight));
+				transPrice=operCost.add(freightPrice.multiply(weight));
 				json.put("transPrice",transPrice);
 
 			}

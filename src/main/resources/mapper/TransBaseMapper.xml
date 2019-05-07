@@ -62,6 +62,9 @@
         <if test="name!=null and name!=''">
             and base.name like '%'+#{name}+'%'
         </if>
+        <if test="contry_name!=null and contry_name!=''">
+            and base.contry_name = #{contry_name}
+        </if>
         <if test="trans_type_id!=null and trans_type_id!=''">
             and base.trans_type_id=#{trans_type_id}
         </if>
@@ -73,6 +76,9 @@
         select count(0) from trans_base_info where status=1
         <if test="name!=null and name!=''">
             and name like '%'+#{name}+'%'
+        </if>
+        <if test="contry_name!=null and contry_name!=''">
+            and contry_name = #{contry_name}
         </if>
         <if test="trans_type_id!=null and trans_type_id!=''">
             and trans_type_id=#{trans_type_id}

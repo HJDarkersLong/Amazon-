@@ -37,12 +37,21 @@ public class TransportController {
     }
 
     /**
-     * 查询
+     * 查询快递方式
      */
     @RequiresPermissions("transport:list")
     @GetMapping("/listAllTransType")
     public JSONObject listAllTransType(HttpServletRequest request){
         return transTypeService.findAllTransType();
+    }
+
+    /**
+     * 查询运费
+     */
+    @RequiresPermissions("transport:list")
+    @GetMapping("/findTransBaseList")
+    public JSONObject findTransBaseList(HttpServletRequest request){
+        return transBaseService.findTransBaseList(CommonUtil.request2Json(request));
     }
 
 }
