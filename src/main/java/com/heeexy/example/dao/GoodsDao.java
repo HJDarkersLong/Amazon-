@@ -34,4 +34,9 @@ public interface GoodsDao {
      * 跟据sku_no 查询
      */
     List<JSONObject> queryBySku(JSONObject jsonObject);
+
+    /**
+     * 删除商品
+     */
+    int deleteGoodById(JSONObject jsonObject);
 }

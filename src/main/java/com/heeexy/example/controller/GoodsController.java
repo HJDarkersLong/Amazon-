@@ -87,6 +87,17 @@ public class GoodsController {
     }
 
     /**
+     * 删除商品跟据id
+     * @param requestJson
+     * @return
+     */
+    @RequiresPermissions("goods:delete")
+    @PostMapping("deleteGoodById")
+    public JSONObject deleteGoodById(@RequestBody JSONObject requestJson){
+        return goodsService.deleteGoodById(requestJson);
+    }
+
+    /**
      * 获取商品所有状态信息
      */
     @GetMapping("/getGoodsStatus")

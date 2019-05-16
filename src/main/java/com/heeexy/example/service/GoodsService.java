@@ -18,4 +18,11 @@ public interface GoodsService {
      * 更新商品
      */
     JSONObject updateGoods(JSONObject jsonObject);
+
+    /**
+     * 删除商品
+     * @param jsonObject
+     * @return
+     */
+    JSONObject deleteGoodById (JSONObject jsonObject);
 }

@@ -83,6 +83,12 @@
         LIMIT #{offSet}, #{pageRow}
     </select>
 
+    <update id="deleteGoodById" parameterType="com.alibaba.fastjson.JSONObject">
+        UPDATE goods_base_info g
+        set g.delete_status = '0'
+        where g.id = #{id}
+    </update>
+
     <update id="updateGoods" parameterType="com.alibaba.fastjson.JSONObject">
         UPDATE goods_base_info g
         <set>

@@ -78,6 +78,15 @@ public class GoodsServiceImpl implements GoodsService {
         return CommonUtil.successJson();
     }
 
+    @Override
+    public JSONObject deleteGoodById(JSONObject jsonObject) {
+        String id = jsonObject.getString("id");
+        JSONObject json = new JSONObject();
+        json.put("id",id);
+        goodsDao.deleteGoodById(json);
+        return CommonUtil.successJson();
+    }
+
 
     /**
      * Created By HJ on 2019-04-10 11:58:56
